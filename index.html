@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Climate Hazard Analyzer</title>
+</head>
+<body>
+  <h2>Run Hazard Analysis</h2>
+  <select id="hazardType">
+    <option value="drought">Drought</option>
+    <option value="heavy_rain">Heavy Rain</option>
+  </select>
+  <button onclick="runAnalysis()">Analyze</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function runAnalysis() {
+      const hazardType = document.getElementById("hazardType").value;
+      const res = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hazard_type: hazardType })
+      });
+      const data = await res.json();
+      document.getElementById("output").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
